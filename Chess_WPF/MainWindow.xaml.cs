@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Chess_WPF
 {
@@ -56,50 +55,5 @@ namespace Chess_WPF
                 Canvas.SetTop(draggedElement, currentPosition.Y - (draggedElement.RenderSize.Height / 2));
             }
         }
-
-        private void OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left && isDragging && draggedElement != null)
-            {
-                isDragging = false;
-                draggedElement.ReleaseMouseCapture();
-
-                ChessboardSquare square = GetSquareAtMousePosition(e.GetPosition(ChessboardGrid));
-            }
-        }
-
-        private ChessboardSquare GetSquareAtMousePosition(Point mousePoint)
-        {
-            foreach (var squareViewModel in MainViewModel.Chessboard)
-            {
-                // Perform hit testing on each square ViewModel
-                if (IsMouseOverSquare(squareViewModel, mousePoint))
-                {
-                    // Extract row and column information from the ViewModel
-                    int row = squareViewModel.Row;
-                    int column = squareViewModel.Column;
-
-                    // Create and return a ChessboardSquare with the corresponding ViewModel
-                    return new ChessboardSquare(row, column)
-                    {
-                        SquareColor = squareViewModel.Color,
-                        PieceName = squareViewModel.PieceName
-                    };
-                }
-            }
-
-            return null; // No ChessboardSquare found at the mouse position
-        }
-
-        private bool IsMouseOverSquare(SquareViewModel squareViewModel, Point mousePoint)
-        {
-            // Perform hit testing on the square ViewModel
-            // You need to implement this method according to your specific requirements
-            // This could involve checking the bounding rectangle of the square for mouse containment
-            // or any other appropriate method for determining if the mouse is over the square
-            // For example:
-            //return squareViewModel.Bounds.Contains(mousePoint);
-        }
-
     }
 }
